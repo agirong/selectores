@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CountriesService } from '../../services/countries.service';
 import { Region } from '../../interfaces/country.interfaces';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-selector-page',
@@ -30,6 +31,9 @@ export class SelectorPageComponent implements OnInit {
 
   onRegionChange():void{
     this.myForm.get('region')?.valueChanges
+    .pipe(
+      switchMap(region=> this.countriesService.getCountriesByRegion(region))
+    )
     .subscribe( region=>{
       console.log({region})
     })
