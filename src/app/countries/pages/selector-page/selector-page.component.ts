@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CountriesService } from '../../services/countries.service';
-import { Region } from '../../interfaces/country.interfaces';
+import { Region, SmallCountry } from '../../interfaces/country.interfaces';
 import { switchMap } from 'rxjs';
 
 @Component({
@@ -10,6 +10,9 @@ import { switchMap } from 'rxjs';
   styles: ``
 })
 export class SelectorPageComponent implements OnInit {
+
+  public countriesByRegion : SmallCountry[] = [];
+
   constructor(
     private fb: FormBuilder,
     private countriesService: CountriesService,
@@ -34,8 +37,8 @@ export class SelectorPageComponent implements OnInit {
     .pipe(
       switchMap(region=> this.countriesService.getCountriesByRegion(region))
     )
-    .subscribe( region=>{
-      console.log({region})
+    .subscribe( countries=>{
+      this.countriesByRegion = countries;
     })
   }
 }
